@@ -25,7 +25,7 @@ export class AllocateEmployee {
 			role.addEmployee(employee);
 			this._employees.push(employee);
 		} else {
-			throw new Error('Employee já está cadastrado');
+			throw new Error('This employee is already registered');
 		}
 	}
 
@@ -44,7 +44,7 @@ export class AllocateEmployee {
 			}
 			this._roles.push(role);
 		} else {
-			throw new Error('O cargo já está cadastrado');
+			throw new Error('This role is already registered');
 		}
 	}
 
@@ -56,7 +56,7 @@ export class AllocateEmployee {
 		});
 	}
 
-	public containsEmployee(cpf?: string): Employee | undefined {
+	public containsEmployee(cpf: string): Employee | undefined {
 		return this._employees.find((employee) => {
 			if (employee.cpf === cpf) {
 				return employee;
