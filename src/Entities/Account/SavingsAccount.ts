@@ -1,6 +1,6 @@
 import { Account } from './Account';
 
-export class savingsAccount extends Account {
+export class SavingsAccount extends Account {
 	private _profitabilityMonthly: number;
 
 	constructor(number: string, profitabilityMonthly: number) {
