@@ -1,7 +1,7 @@
 import { Address } from "../Entities/Person/Client/Address";
 import { Client } from "../Entities/Person/Client/Client";
 
-export class ClientToAdress {
+export class ClientHousing {
 	private _addresses: Array<Address>;
 	private _clients: Array<Client>;
 
@@ -20,8 +20,8 @@ export class ClientToAdress {
 		return true;
 	}
 
-	public addAdress (cpf: string, cep: string, publicPlace: string, number: string, complement: string, city: string, uf: string) {
-		let address: Address | undefined = this.containsAdress(cep);
+	public addAddress (cpf: string, cep: string, publicPlace: string, number: string, complement: string, city: string, uf: string) {
+		let address: Address | undefined = this.containsAddress(cep);
 		const client: Client | undefined = this.containsClient(cpf);
 
 		if (client != undefined && address === undefined) {
@@ -41,7 +41,7 @@ export class ClientToAdress {
 		});
 	}
 
-	public containsAdress(cep: string) {
+	public containsAddress(cep: string) {
 		return this._addresses.find((address) => {
 			if (address.cep === cep) {
 				return address;

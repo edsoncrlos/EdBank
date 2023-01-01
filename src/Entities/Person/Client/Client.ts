@@ -23,7 +23,7 @@ export class Client extends Person {
 		this._addresses.push(address);
 	}
 
-	public listaddresses() {
+	public listAddresses() {
 		this._addresses.forEach((address) => {
 			console.log(address.toString() + '\n');
 		});
