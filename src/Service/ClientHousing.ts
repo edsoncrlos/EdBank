@@ -1,5 +1,5 @@
-import { Address } from "../Entities/Person/Client/Address";
-import { Client } from "../Entities/Person/Client/Client";
+import { Address } from '../Entities/Person/Client/Address';
+import { Client } from '../Entities/Person/Client/Client';
 
 export class ClientHousing {
 	private _addresses: Array<Address>;
