@@ -5,10 +5,10 @@ export class Employee extends Person {
 	private _salary: number;
 	private _role: Array<Role>;
 
-	constructor (cpf: string, name: string, phone: string, salary: number, role: Role) {
+	constructor (cpf: string, name: string, phone: string, salary: number) {
 		super(cpf, name, phone);
 		this._salary = salary;
-		this._role = [role];
+		this._role = [];
 	}
 
 	public get role(): Array<Role> {

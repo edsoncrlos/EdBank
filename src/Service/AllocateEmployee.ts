@@ -21,12 +21,13 @@ export class AllocateEmployee {
 		}
 
 		if (employee === undefined) {
-			employee = new Employee(cpf, name, phone, salary, role);
+			employee = new Employee(cpf, name, phone, salary);
+			employee.addRole(role);
 			role.addEmployee(employee);
 			this._employees.push(employee);
-		} else {
-			throw new Error('This employee is already registered');
+			return true;
 		}
+		return false;
 	}
 
 	public addRole (roleName: string, cpf?: string) {
@@ -41,11 +42,12 @@ export class AllocateEmployee {
 			role = new Role(roleName);
 			if (employee != undefined) {
 				role.addEmployee(employee);
+				employee.addRole(role);
 			}
 			this._roles.push(role);
-		} else {
-			throw new Error('This role is already registered');
+			return true;
 		}
+		return false;
 	}
 
 	public containsRole(roleName: string): Role | undefined {
