@@ -50,6 +50,18 @@ export class AllocateEmployee {
 		return false;
 	}
 
+	public addRoleToEmployee(cpf: string, roleName: string) {
+		let employee: Employee | undefined = this.containsEmployee(cpf);
+		let role: Role | undefined = this.containsRole(roleName);
+
+		if (employee != undefined && role != undefined) {
+			employee.addRole(role);
+			role.addEmployee(employee);
+			return true;
+		}
+		return false;
+	}
+
 	public containsRole(roleName: string): Role | undefined {
 		return this._roles.find((role) => {
 			if (role.name === roleName) {
