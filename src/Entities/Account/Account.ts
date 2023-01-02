@@ -1,15 +1,33 @@
 import { Debit } from './Transaction/Debit';
 import { Credit } from './Transaction/Credit';
+import { Client } from '../Person/Client/Client';
 
 export abstract class Account {
 	private _number: string;
 	private _debts: Array<Debit>;
 	private _credits: Array<Credit>;
+	private _client!: Client;
 
 	constructor(number: string) {
 		this._number = number;
 		this._debts = [];
 		this._credits = [];
+	}
+
+	public get number(): string {
+		return this._number;
+	}
+	
+	public set number(value: string) {
+		this._number = value;
+	}
+	
+	public get client(): Client {
+		return this._client;
+	}
+
+	public set client(value: Client) {
+		this._client = value;
 	}
 
 	public sumCredits () {

@@ -1,13 +1,18 @@
+import { Account } from '../Entities/Account/Account';
 import { Address } from '../Entities/Person/Client/Address';
 import { Client } from '../Entities/Person/Client/Client';
+import { CheckingAccount } from '../Entities/Account/CheckingAccount';
+import { SavingsAccount } from '../Entities/Account/SavingsAccount';
 
-export class ClientHousing {
+export class ManageClients {
 	private _addresses: Array<Address>;
 	private _clients: Array<Client>;
+	private _accounts: Array<Account>;
 
 	constructor () {
 		this._addresses = [];
 		this._clients = [];
+		this._accounts = [];
 	}
 
 	public addClient(cpf: string, name: string, phone: string, isVip: boolean) {
@@ -33,6 +38,27 @@ export class ClientHousing {
 		return false;
 	}
 
+	addAccount(cpf: string, number: string, limit?: number, profitabilityMonthly?: number) {
+		const client: Client | undefined = this.containsClient(cpf);
+		let account: Account | undefined = this.containsAccount(number);
+
+		if (client != undefined && account === undefined) {
+			if (limit != undefined) {
+				account = new CheckingAccount(number, limit);
+			} else if (profitabilityMonthly != undefined) {
+				account = new SavingsAccount(number, profitabilityMonthly);
+			}
+
+			if (account != undefined) {
+				this._accounts.push(account);
+				client.addAccount(account);
+				account.client = client;
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public containsClient(cpf: string) {
 		return this._clients.find((client) => {
 			if (client.cpf === cpf) {
@@ -45,6 +71,14 @@ export class ClientHousing {
 		return this._addresses.find((address) => {
 			if (address.cep === cep) {
 				return address;
+			}
+		});
+	}
+
+	public containsAccount(number: string) {
+		return this._accounts.find((account) => {
+			if (account.number === number) {
+				return number;
 			}
 		});
 	}
