@@ -80,6 +80,9 @@ export class Address {
 	}
 
 	public get client(): Client {
+		if (this._client === undefined) {
+			throw new Error('Client is undefined');
+		}
 		return this._client;
 	}
 
