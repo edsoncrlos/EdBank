@@ -1,8 +1,9 @@
 import { Account } from '../../Account/Account';
+import { IUser } from '../../Interfaces/IUser';
 import { Person } from '../Person';
 import { Address } from './Address';
 
-export class Client extends Person {
+export class Client extends Person implements IUser{
 	private _isVip: boolean;
 	private _addresses: Array<Address>;
 	private _accounts: Array<Account>;
@@ -12,6 +13,10 @@ export class Client extends Person {
 		this._isVip = isVip;
 		this._addresses = [];
 		this._accounts = [];
+	}
+
+	public auth() {
+		return true;
 	}
 
 	public addAccount(account: Account) {
@@ -29,7 +34,7 @@ export class Client extends Person {
 	public get accounts(): Array<Account> {
 		return this._accounts;
 	}
-	
+
 	public set accounts(value: Array<Account>) {
 		this._accounts = value;
 	}

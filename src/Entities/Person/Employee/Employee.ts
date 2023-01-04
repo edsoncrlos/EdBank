@@ -1,7 +1,8 @@
+import { IUser } from '../../Interfaces/IUser';
 import { Person } from '../Person';
 import { Role } from './Role';
 
-export class Employee extends Person {
+export class Employee extends Person implements IUser {
 	private _salary: number;
 	private _role: Array<Role>;
 
@@ -9,6 +10,10 @@ export class Employee extends Person {
 		super(cpf, name, phone);
 		this._salary = salary;
 		this._role = [];
+	}
+
+	public auth() {
+		return true;
 	}
 
 	public get role(): Array<Role> {
