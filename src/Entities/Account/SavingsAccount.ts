@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 import { Account } from './Account';
 
 export class SavingsAccount extends Account {
@@ -17,10 +19,16 @@ export class SavingsAccount extends Account {
 	}
 
 	public calculateBalance() {
-		return this.getBalance() + this.calculateYield();
+		const monthlyYield = this.calculateYield();
+		this.deposit(monthlyYield);
+
+		return this.getBalance();
 	}
 
 	public calculateYield() {
-		return this._profitabilityMonthly * this.getBalance();
+		const balance = BigNumber(this.getBalance());
+		const profitabilityMonthly = this._profitabilityMonthly;
+
+		return balance.times(profitabilityMonthly).toNumber();
 	}
 }

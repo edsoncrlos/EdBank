@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 import { Account } from './Account';
 
 export class CheckingAccount extends Account {
@@ -29,6 +31,9 @@ export class CheckingAccount extends Account {
 	}
 
 	public calculateBalance() {
-		return this.getBalance() + this._limit;
+		const balance = BigNumber(this.getBalance());
+		const limit = this.limit;
+
+		return balance.plus(limit).toNumber();
 	}
 }

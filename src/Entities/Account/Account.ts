@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 import { Debit } from './Transaction/Debit';
 import { Credit } from './Transaction/Credit';
 import { Client } from '../Person/Client/Client';
@@ -17,11 +19,11 @@ export abstract class Account {
 	public get number(): string {
 		return this._number;
 	}
-	
+
 	public set number(value: string) {
 		this._number = value;
 	}
-	
+
 	public get client(): Client {
 		return this._client;
 	}
@@ -31,23 +33,26 @@ export abstract class Account {
 	}
 
 	public sumCredits () {
-		let sum = 0;
+		let sum = BigNumber(0);
 		for (const credit of this._credits) {
-			sum += credit.value;
+			sum = sum.plus(credit.value);
 		}
-		return sum;
+		return sum.toNumber();
 	}
 
 	public sumDebts () {
-		let sum = 0;
+		let sum = BigNumber(0);
 		for (const debit of this._debts) {
-			sum += debit.value;
+			sum = sum.plus(debit.value);
 		}
 		return sum;
 	}
 
 	public getBalance () {
-		return this.sumCredits() - this.sumDebts();
+		const sumCredits = BigNumber(this.sumCredits());
+		const sumDebts = this.sumDebts();
+
+		return sumCredits.minus(sumDebts).toNumber();
 	}
 
 	deposit(value: number) {
