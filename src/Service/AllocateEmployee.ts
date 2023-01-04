@@ -51,8 +51,8 @@ export class AllocateEmployee {
 	}
 
 	public addRoleToEmployee(cpf: string, roleName: string) {
-		let employee: Employee | undefined = this.containsEmployee(cpf);
-		let role: Role | undefined = this.containsRole(roleName);
+		const employee: Employee | undefined = this.containsEmployee(cpf);
+		const role: Role | undefined = this.containsRole(roleName);
 
 		if (employee != undefined && role != undefined) {
 			employee.addRole(role);
