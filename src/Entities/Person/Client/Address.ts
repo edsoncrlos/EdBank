@@ -28,7 +28,7 @@ export class Address {
 		if (!this.isUF(uf)) {
 			throw new Error('It is not a uf');
 		}
-		this._uf = uf;
+		this._uf = uf.toUpperCase();
 	}
 
 	public get cep(): string {
@@ -91,11 +91,11 @@ export class Address {
 	}
 
 	public toString() {
-		return 'cep: ' + this.cep + '\n' +
-		'publicPlace: ' + this.publicPlace + '\n' +
-		'number: ' + this.number + '\n' +
-		'complement: ' + this.complement + '\n' +
-		'city: ' + this.city + '\n' +
-		'uf: ' + this.uf;
+		return 'CEP: ' + this.cep + '\n' +
+		'Logradouro: ' + this.publicPlace + '\n' +
+		'Número: ' + this.number + '\n' +
+		'Complemento: ' + this.complement + '\n' +
+		'Cidade: ' + this.city + '\n' +
+		'UF: ' + this.uf;
 	}
 }

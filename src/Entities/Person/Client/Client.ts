@@ -44,7 +44,8 @@ export class Client extends Person implements IUser{
 	}
 
 	public listAddresses() {
-		this._addresses.forEach((address) => {
+		this._addresses.forEach((address, index) => {
+			console.log('Endereço: '+ ++index);
 			console.log(address.toString() + '\n');
 		});
 	}
