@@ -59,6 +59,26 @@ export class ManageClients {
 		return false;
 	}
 
+	public transferAccount(originAccountNumber: string, destinationAccountNumber: string, value: number) {
+		const originAccount: Account | undefined = this.containsAccount(originAccountNumber);
+		const destinationAccount: Account | undefined = this.containsAccount(destinationAccountNumber);
+
+		if (originAccount != undefined && destinationAccount != undefined) {
+			if (originAccount instanceof CheckingAccount) {
+				return originAccount.transfer(destinationAccount, value);
+			}
+		}
+		return false;
+	}
+
+	verifyYield (date: Date) {
+		this._accounts.forEach((account) => {
+			if (account instanceof SavingsAccount) {
+				account.calculateMonthlyYield(date);
+			}
+		});
+	}
+
 	public containsClient(cpf: string) {
 		return this._clients.find((client) => {
 			if (client.cpf === cpf) {
