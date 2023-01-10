@@ -49,12 +49,17 @@ export class SavingsAccount extends Account {
 			const isPaydayofDeposit = (currentDay === day || (isEndMonth && currentDay === 1));
 
 			if (currentYear >= year && currentMonth > month && isPaydayofDeposit) {
-				const remaingDepositBalance = BigNumber(credit.creditPlusIncomes()).minus(amountOfDebtForEachCredit);
+				const remaingDepositBalance = BigNumber(credit.creditPlusIncomes()).minus(amountOfDebtForEachCredit).toNumber();
 
-				const monthlyYield = profitabilityMonthly.times(remaingDepositBalance).toNumber();
+				const monthlyYield = this.calculateYield(remaingDepositBalance);
 				credit.addIncome(monthlyYield);
 			}
 		}
 	}
 
+	public calculateYield(value: number) {
+		const profitabilityMonthly = BigNumber(this._profitabilityMonthly);
+
+		return profitabilityMonthly.times(value).toNumber();
+	}
 }
