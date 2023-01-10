@@ -33,7 +33,12 @@ export class SavingsAccount extends Account {
 		const currentDate = this.getDayMonthYear(date);
 		const { day: currentDay, month: currentMonth, year: currentYear } = currentDate;
 
-		const profitabilityMonthly = BigNumber(this._profitabilityMonthly);
+		const isEndMonth = (currentDay === 29 || currentDay === 30 || currentDay === 31)
+
+		if (isEndMonth) {
+			return;
+		}
+
 		let amountOfDebtForEachCredit = 0;
 		const amountCredits = this._credits.length;
 
@@ -45,8 +50,8 @@ export class SavingsAccount extends Account {
 		for (const credit of this._credits) {
 			const { day, month, year } = this.getDayMonthYear(credit.date);
 
-			const isEndMonth = (day === 29 || day === 30 || day === 31);
-			const isPaydayofDeposit = (currentDay === day || (isEndMonth && currentDay === 1));
+			const isDepositDayEndMonth = (day === 29 || day === 30 || day === 31);
+			const isPaydayofDeposit = (currentDay === day || (isDepositDayEndMonth && currentDay === 1));
 
 			if (currentYear >= year && currentMonth > month && isPaydayofDeposit) {
 				const remaingDepositBalance = BigNumber(credit.creditPlusIncomes()).minus(amountOfDebtForEachCredit).toNumber();
