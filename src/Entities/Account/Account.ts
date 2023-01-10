@@ -6,8 +6,8 @@ import { Client } from '../Person/Client/Client';
 
 export abstract class Account {
 	private _number: string;
-	private _debts: Array<Debit>;
-	private _credits: Array<Credit>;
+	protected _debts: Array<Debit>;
+	protected _credits: Array<Credit>;
 	private _client!: Client;
 
 	constructor(number: string) {
@@ -35,7 +35,7 @@ export abstract class Account {
 	public sumCredits () {
 		let sum = BigNumber(0);
 		for (const credit of this._credits) {
-			sum = sum.plus(credit.value);
+			sum = sum.plus(credit.creditPlusIncomes());
 		}
 		return sum.toNumber();
 	}
@@ -45,7 +45,7 @@ export abstract class Account {
 		for (const debit of this._debts) {
 			sum = sum.plus(debit.value);
 		}
-		return sum;
+		return sum.toNumber();
 	}
 
 	public getBalance () {
@@ -55,9 +55,9 @@ export abstract class Account {
 		return sumCredits.minus(sumDebts).toNumber();
 	}
 
-	deposit(value: number) {
+	deposit(value: number, date: Date = new Date) {
 		if (value > 0) {
-			this._credits.push(new Credit(value, new Date));
+			this._credits.push(new Credit(value, date));
 			return true;
 		}
 		return false;
@@ -67,7 +67,7 @@ export abstract class Account {
 
 	public withdraw(value: number) {
 		const balance = this.calculateBalance();
-		if (balance >= value) {
+		if (balance >= value && value > 0) {
 			this.addDebit(value);
 			return true;
 		}

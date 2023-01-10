@@ -7,7 +7,7 @@ export class SavingsAccount extends Account {
 
 	constructor(number: string, profitabilityMonthly: number) {
 		super(number);
-		this._profitabilityMonthly = (profitabilityMonthly / 100);
+		this._profitabilityMonthly = BigNumber(profitabilityMonthly).dividedBy(100).toNumber();
 	}
 
 	public get profitabilityMonthly(): number {
@@ -19,16 +19,42 @@ export class SavingsAccount extends Account {
 	}
 
 	public calculateBalance() {
-		const monthlyYield = this.calculateYield();
-		this.deposit(monthlyYield);
-
 		return this.getBalance();
 	}
 
-	public calculateYield() {
-		const balance = BigNumber(this.getBalance());
-		const profitabilityMonthly = this._profitabilityMonthly;
-
-		return balance.times(profitabilityMonthly).toNumber();
+	private getDayMonthYear(date: Date) {
+		const day = date.getDate();
+		const month = date.getMonth();
+		const year = date.getFullYear();
+		return {day, month, year};
 	}
+
+	public calculateMonthlyYield(date: Date = new Date) {
+		const currentDate = this.getDayMonthYear(date);
+		const { day: currentDay, month: currentMonth, year: currentYear } = currentDate;
+
+		const profitabilityMonthly = BigNumber(this._profitabilityMonthly);
+		let amountOfDebtForEachCredit = 0;
+		const amountCredits = this._credits.length;
+
+		if (amountCredits > 0) {
+			const sumDebts = this.sumDebts();
+			amountOfDebtForEachCredit = sumDebts / amountCredits;
+		}
+
+		for (const credit of this._credits) {
+			const { day, month, year } = this.getDayMonthYear(credit.date);
+
+			const isEndMonth = (day === 29 || day === 30 || day === 31);
+			const isPaydayofDeposit = (currentDay === day || (isEndMonth && currentDay === 1));
+
+			if (currentYear >= year && currentMonth > month && isPaydayofDeposit) {
+				const remaingDepositBalance = BigNumber(credit.creditPlusIncomes()).minus(amountOfDebtForEachCredit);
+
+				const monthlyYield = profitabilityMonthly.times(remaingDepositBalance).toNumber();
+				credit.addIncome(monthlyYield);
+			}
+		}
+	}
+
 }
