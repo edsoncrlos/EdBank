@@ -33,7 +33,7 @@ export class SavingsAccount extends Account {
 		const currentDate = this.getDayMonthYear(date);
 		const { day: currentDay, month: currentMonth, year: currentYear } = currentDate;
 
-		const isEndMonth = (currentDay === 29 || currentDay === 30 || currentDay === 31)
+		const isEndMonth = (currentDay === 29 || currentDay === 30 || currentDay === 31);
 
 		if (isEndMonth) {
 			return;
