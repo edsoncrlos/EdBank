@@ -35,7 +35,7 @@ export abstract class Account {
 	public sumCredits () {
 		let sum = BigNumber(0);
 		for (const credit of this._credits) {
-			sum = sum.plus(credit.creditPlusIncomes());
+			sum = sum.plus(credit.getValue());
 		}
 		return sum.toNumber();
 	}
@@ -65,7 +65,7 @@ export abstract class Account {
 
 	public abstract calculateBalance(): number;
 
-	public withdraw(value: number) {
+	public withdraw(value: number, date: Date) {
 		const balance = this.calculateBalance();
 		if (balance >= value && value > 0) {
 			this.addDebit(value);
