@@ -20,7 +20,7 @@ export class CheckingAccount extends Account {
 
 	transfer (account: Account, value: number) {
 		const balance = this.calculateBalance();
-		if (balance >= value) {
+		if (balance >= value && value > 0) {
 			if (account != this) {
 				this.addDebit(value);
 				account.deposit(value);
